@@ -8,19 +8,19 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchItem } from '../actions/itemActions';
-import { 
+import {
   logout,
   login,
   startRegister,
-  addAccount
+  addAccount,
 } from '../actions/loginActions';
-import Login  from '../components/Login';
+import Login from '../components/Login';
 import Loading from '../components/Loading';
 import Register from '../components/Register';
 import AddItem from './AddItem';
 
 const styles = StyleSheet.create({
-  container : {
+  container: {
     margin: 7,
   },
   itemContainer: {
@@ -63,7 +63,7 @@ class App extends Component {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       dataSource: ds,
-      is_posting: false,
+      isPosting: false,
     };
   }
 
@@ -77,20 +77,25 @@ class App extends Component {
   componentWillReceiveProps(props) {
     const { itemData } = props;
     const { dataSource } = this.state;
+    const isPosting = itemData.get('is_posting');
+    const isError = itemData.get('is_error');
     if (itemData !== undefined) {
       this.setState({
         dataSource: dataSource.cloneWithRows(itemData.get('data').toArray()),
       });
     }
+    if (isPosting === false && isError === false) {
+      this.setState({ isPosting: false });
+    }
   }
 
   cancelPosting() {
-    this.setState({ is_posting: false });
+    this.setState({ isPosting: false });
   }
 
 
   startPosting() {
-    this.setState({ is_posting: true });
+    this.setState({ isPosting: true });
   }
 
 
@@ -107,50 +112,49 @@ class App extends Component {
   render() {
     const { itemData, loginData, login, startRegister, addAccount } = this.props;
     const isLogin = loginData.get('is_login');
-    const { is_posting } = this.state;
+    const { isPosting } = this.state;
     const isRegister = loginData.get('is_register');
-    console.log(isRegister);
     const size = itemData.get('data').size;
     if (!isLogin && isRegister) {
-      return (<Register onFinishRegister={(uname, password) => addAccount(uname,password)} />)
+      return (<Register onFinishRegister={(uname, password) => addAccount(uname, password)} />);
     } else if (!isLogin) {
       return (<Login
-        onLogin={(uname,pass) => login(uname,pass)}
+        onLogin={(uname, pass) => login(uname, pass)}
         onRegister={() => startRegister()}
       />
       );
     } else if (isLogin && size === 0) {
-      return (<Loading />)
+      return (<Loading />);
     }
     return (
       <View>
-        {is_posting && 
-            <AddItem
-              cancel={() => this.cancelPosting()}
-            />
+        {isPosting &&
+        <AddItem
+          cancel={() => this.cancelPosting()}
+        />
         }
-        {!is_posting &&
-            <View>
-              <View style={styles.header}>
-                <TouchableOpacity
-                  style={styles.addButton}
-                  onPress={() => this.props.logout()}
-                >
-                  <Text> Logout </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.addButton}
-                  onPress={() => this.startPosting()}
-                >
-                  <Text> Tambah Item </Text>
-                </TouchableOpacity>
-              </View>
-              <ListView
-                style={styles.container}
-                dataSource={this.state.dataSource}
-                renderRow={rowData => this.renderRow(rowData)}
-              />
-            </View>
+        {!isPosting &&
+        <View>
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => this.props.logout()}
+            >
+              <Text> Logout </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => this.startPosting()}
+            >
+              <Text> Tambah Item </Text>
+            </TouchableOpacity>
+          </View>
+          <ListView
+            style={styles.container}
+            dataSource={this.state.dataSource}
+            renderRow={rowData => this.renderRow(rowData)}
+          />
+        </View>
         }
       </View>
     );
@@ -159,6 +163,12 @@ class App extends Component {
 
 App.propTypes = {
   fetchItem: React.PropTypes.func,
+  itemData: React.PropTypes.instanceOf(Map),
+  loginData: React.PropTypes.instanceOf(Map),
+  login: React.PropTypes.func,
+  startRegister: React.PropTypes.func,
+  addAccount: React.PropTypes.func,
+  logout: React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({

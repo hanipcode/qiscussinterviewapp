@@ -15,4 +15,4 @@ export const LOGIN = {
   LOGIN: 'LOGIN.LOGIN',
   FAILED: 'LOGIN.FAILED',
   LOGOUT: 'LOGIN.LOGOUT',
-}
+};

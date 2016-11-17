@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { Map } from 'immutable';
 import {
-  TextInput,
   View,
   StyleSheet,
   Text,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { post } from '../actions/itemActions';
+import Notifier from '../components/Notifier';
 import {
   InputGroup,
   Button,
@@ -45,38 +46,49 @@ class AddItem extends Component {
   }
 
   render() {
-    return(
+    const { itemData } = this.props;
+    const isError = itemData.get('is_error');
+    return (
       <View style={styles.container}>
-      <Text style={styles.text}> Tambah Item </Text>
-      <InputGroup
-        titleText="item name"
-        text=' '
-        update={text => this.setState({ name: text })}
-      />
-      <InputGroup
-        titleText="item price"
-        keyboardType="numeric"
-        text=' '
-        update={text => this.setState({ price: text })}
-      />
-      <Button
-        style={styles.button}
-        text={'Tambah Item'}
-        onPress={() => this.onPress()}
-      />
-      <Button
-        style={styles.button}
-        text={'Cancel'}
-        onPress={() => this.props.cancel()}
-      />
-    </View>
+        {isError &&
+          <Notifier message="Error posting item" />
+        }
+        <Text style={styles.text}> Tambah Item </Text>
+        <InputGroup
+          titleText="item name"
+          text=" "
+          update={text => this.setState({ name: text })}
+        />
+        <InputGroup
+          titleText="item price"
+          keyboardType="numeric"
+          text=" "
+          update={text => this.setState({ price: text })}
+        />
+        <Button
+          style={styles.button}
+          text={'Tambah Item'}
+          onPress={() => this.onPress()}
+        />
+        <Button
+          style={styles.button}
+          text={'Cancel'}
+          onPress={() => this.props.cancel()}
+        />
+      </View>
     );
   }
 }
 
+AddItem.propTypes = {
+  post: React.PropTypes.func,
+  cancel: React.PropTypes.func,
+  itemData: React.PropTypes.instanceOf(Map),
+};
+
 const mapStateToProps = state => ({
-  itemData: state.itemData,
-})
+  itemData: state.itemReducer,
+});
 
 export default connect(
   mapStateToProps,

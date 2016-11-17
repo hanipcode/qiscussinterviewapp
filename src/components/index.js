@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   Text,
   TouchableHighlight,
   TextInput,
   Picker,
   View,
 } from 'react-native';
-import styles from './form.styles.js';
+import styles from './form.styles';
 
 export class FormText extends Component {
   render() {
@@ -51,7 +50,7 @@ export class InputGroup extends Component {
       text: ' ',
     };
   }
-  componentDidMount() {
+  componentWillMount() {
     const { text } = this.props;
     this.setState({
       text,

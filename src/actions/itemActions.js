@@ -54,12 +54,10 @@ export function post(name, price) {
   return async (dispatch) => {
     dispatch(startPost());
     const response = await api.postItem(name, price);
-    console.log(response);
-    if (response.status !== 200) {
+    if (response.status !== 201) {
       dispatch(failedPost());
     } else {
-      const data = await response.json();
-      dispatch(successPost);
+      dispatch(successPost());
       dispatch(fetchItem());
     }
   };

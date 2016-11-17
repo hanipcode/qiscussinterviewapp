@@ -1,4 +1,4 @@
-import { Map, fromJS, List } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { LOGIN } from '../constants';
 
 const initialState = Map({
@@ -15,7 +15,7 @@ const initialState = Map({
   ]),
   is_error: false,
   is_register: false,
-})
+});
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -47,6 +47,6 @@ const loginReducer = (state = initialState, action) => {
     default:
       return state;
   }
-}
+};
 
 export default loginReducer;

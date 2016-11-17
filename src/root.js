@@ -33,7 +33,7 @@ const store = createStore(
   )
 );
 
-persistStore(store, {blackList: ['itemReducer'], storage: AsyncStorage, transforms: [immutableTransform()]});
+persistStore(store, { blackList: ['itemReducer'], storage: AsyncStorage, transforms: [immutableTransform()] });
 
 
 const root = () => (

@@ -3,17 +3,12 @@ export function getItem() {
 }
 
 export function postItem(name, price) {
-  const data = {
-    name: name,
-    price: price,
-  };
+  const data = new FormData();
+  data.append('product[name]', name);
+  data.append('product[price]', price);
   const config = {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
+    body: data,
   };
-  console.log(config.body);
   return fetch('http://qiscusinterview.herokuapp.com/products/', config);
 }

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
-  TextInput,
   View,
   StyleSheet,
-  Text,
 } from 'react-native';
 import {
   InputGroup,
@@ -36,39 +34,43 @@ export default class Login extends Component {
 
   onLoginPress() {
     const { username, password } = this.state;
-    console.log(username,password);
-    this.props.onLogin(username,password);
+    this.props.onLogin(username, password);
   }
 
   onRegisterPress() {
-     this.props.onRegister();
+    this.props.onRegister();
   }
 
   render() {
-    return(
-    <View style={styles.container}>
-      <InputGroup
-        titleText="username"
-        text={this.state.username}
-        update={text => this.setState({ username: text })}
-      />
-      <InputGroup
-        titleText="password"
-        text={this.state.password}
-        update={text => this.setState({ password: text })}
-        secureTextEntry
-      />
-      <Button
-        style={styles.button}
-        text={'Login'}
-        onPress={() => this.onLoginPress()}
-      />
-      <Button
-        style={styles.button}
-        text={'Register'}
-        onPress={() => this.onRegisterPress()}
-      />
-    </View>
+    return (
+      <View style={styles.container}>
+        <InputGroup
+          titleText="username"
+          text={this.state.username}
+          update={text => this.setState({ username: text })}
+        />
+        <InputGroup
+          titleText="password"
+          text={this.state.password}
+          update={text => this.setState({ password: text })}
+          secureTextEntry
+        />
+        <Button
+          style={styles.button}
+          text={'Login'}
+          onPress={() => this.onLoginPress()}
+        />
+        <Button
+          style={styles.button}
+          text={'Register'}
+          onPress={() => this.onRegisterPress()}
+        />
+      </View>
     );
   }
 }
+
+Login.propTypes = {
+  onLogin: React.PropTypes.func,
+  onRegister: React.PropTypes.func,
+};

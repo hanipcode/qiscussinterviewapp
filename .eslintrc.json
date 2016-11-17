@@ -1,0 +1,29 @@
+{
+    "extends": "airbnb", 
+    "plugins": [
+      "import"
+    ],
+    "installedESLint": true,
+    "rules": {
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "new-cap": [2, { "capIsNewExceptions": ["List","Map"] }],
+      "class-methods-use-this": [0, {"exceptMethods": ["renderRow"]}],
+      "max-len": [0],
+      "no-useless-escape": [0],
+      "no-shadow": [0],
+      "comma-dangle": [2, "always-multiline"]
+    },
+    "env": {
+      "node": true,
+      "jasmine": true,
+      "jest": true,
+      "es6": true
+    },
+    "globals": {
+      "fetch": true,
+      "__DEV__": true,
+      "navigator": true,
+      "FormData": true
+    }
+}
+

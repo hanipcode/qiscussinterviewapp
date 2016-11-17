@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {
-  TextInput,
   View,
   StyleSheet,
-  Text,
 } from 'react-native';
 import {
   InputGroup,
@@ -25,7 +23,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#34495e',
   },
 });
-export default class Login extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,25 +38,29 @@ export default class Login extends Component {
   }
 
   render() {
-    return(
-    <View style={styles.container}>
-      <InputGroup
-        titleText="prefered username"
-        text=" "
-        update={text => this.setState({ username: text })}
-      />
-      <InputGroup
-        titleText="prefered password"
-        text=" "
-        update={text => this.setState({ password: text })}
-        secureTextEntry
-      />
-      <Button
-        style={styles.button}
-        text={'Register'}
-        onPress={() => this.onPress()}
-      />
-    </View>
+    return (
+      <View style={styles.container}>
+        <InputGroup
+          titleText="prefered username"
+          text=" "
+          update={text => this.setState({ username: text })}
+        />
+        <InputGroup
+          titleText="prefered password"
+          text=" "
+          update={text => this.setState({ password: text })}
+          secureTextEntry
+        />
+        <Button
+          style={styles.button}
+          text={'Register'}
+          onPress={() => this.onPress()}
+        />
+      </View>
     );
   }
 }
+
+Register.propTypes = {
+  onFinishRegister: React.PropTypes.func,
+};
